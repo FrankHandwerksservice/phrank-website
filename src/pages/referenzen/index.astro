@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import CaseStudy from '../../components/CaseStudy.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { references } from '../../data/references';
+---
+<Base
+  title="Referenzen: echte Betriebe, echte Ergebnisse | phrank"
+  description="Webseiten, Google-Profile und Local SEO für Betriebe aus Neuss: Dein Trocknungsteam, Frank Handwerksservice und mBody Ergotherapie mit echten Zahlen."
+  navKey="referenzen"
+>
+  <main class="wrap">
+    <div class="ref-hero">
+      <nav class="crumb" aria-label="Brotkrumen"><a href="/">Startseite</a><span aria-hidden="true">/</span><span aria-current="page">Referenzen</span></nav>
+      <h1>Echte Betriebe. <span class="outline">Echte Ergebnisse.</span></h1>
+      <p class="lead">Drei Projekte aus Neuss und was sich bei Google verändert hat.</p>
+    </div>
+    <div class="ref-list">
+      {references.map((r, i) => <CaseStudy r={r} eager={i === 0} />)}
+    </div>
+    <CtaBand />
+  </main>
+</Base>

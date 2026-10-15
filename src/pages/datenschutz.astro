@@ -1,0 +1,33 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../data/site';
+---
+<Legal title="Datenschutzerklärung | phrank" description="Datenschutzerklärung von phrank: keine Cookies, kein Tracking, Daten nur für deine Anfrage." heading="Datenschutz">
+  <h2>1. Verantwortlicher</h2>
+  <p>{site.owner}<br />{site.street}<br />{site.zip} {site.city}<br />Telefon: <a href={`tel:${site.phoneIntl}`}>{site.phone}</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+  <h2>2. Das Wichtigste in Kürze</h2>
+  <p>Diese Webseite setzt keine Cookies, nutzt keine Analyse- oder Werbe-Tools und lädt keine Inhalte von Drittanbietern. Personenbezogene Daten verarbeite ich nur, wenn du mich kontaktierst, und nur so weit, wie es dafür nötig ist.</p>
+
+  <h2>3. Hosting und Server-Logfiles</h2>
+  <p>Diese Webseite wird bei Netlify, Inc. (USA) gehostet. Beim Aufruf werden technisch notwendige Daten verarbeitet, zum Beispiel IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser und Betriebssystem. Das dient der sicheren und stabilen Auslieferung der Seite. Rechtsgrundlage ist mein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO. Mit Netlify besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. Eine Übermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln.</p>
+
+  <h2>4. Kontaktformular</h2>
+  <p>Wenn du das Formular nutzt, verarbeite ich deinen Namen, deinen Ort, deine E-Mail-Adresse, deine Branche und optional den Namen oder Link deines Betriebs. Die Angaben nutze ich nur, um deine Anfrage zu beantworten und den kostenlosen Check zu erstellen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen). Die Formulardaten werden über den Formulardienst von Netlify an mich übermittelt und dort gespeichert. Ich lösche die Daten, sobald die Anfrage erledigt ist und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+
+  <h2>5. Kontakt per E-Mail, Telefon und WhatsApp</h2>
+  <p>Wenn du mich per E-Mail oder Telefon kontaktierst, verarbeite ich deine Angaben zur Bearbeitung deines Anliegens (Art. 6 Abs. 1 lit. b oder f DSGVO). Der Link „WhatsApp schreiben“ öffnet WhatsApp, einen Dienst der WhatsApp Ireland Limited. Erst wenn du darauf tippst, werden Daten an WhatsApp übertragen. Dabei gelten die Datenschutzbestimmungen von WhatsApp, und eine Übermittlung in die USA ist möglich. Wenn du das nicht möchtest, erreichst du mich jederzeit per E-Mail oder Telefon.</p>
+
+  <h2>6. Schriftarten</h2>
+  <p>Alle Schriftarten liegen direkt auf diesem Server. Beim Seitenaufruf wird keine Verbindung zu Google oder anderen Anbietern aufgebaut.</p>
+
+  <h2>7. Externe Links</h2>
+  <p>Bei den Referenzen verlinke ich auf die Webseiten meiner Kunden. Erst wenn du einen solchen Link anklickst, verlässt du diese Seite. Für die Datenverarbeitung dort ist der jeweilige Betreiber verantwortlich.</p>
+
+  <h2>8. Deine Rechte</h2>
+  <p>Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Schreib mir dafür einfach an <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren. Für mich zuständig ist die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, Kavalleriestraße 2–4, 40213 Düsseldorf.</p>
+
+  <h2>9. Stand</h2>
+  <p>Oktober 2026</p>
+</Legal>

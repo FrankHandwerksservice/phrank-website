@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+import type { Reference } from '../data/references';
+interface Props { r: Reference; level?: 'h1' | 'h2'; eager?: boolean; }
+const { r, level = 'h2', eager = false } = Astro.props;
+const H = level;
+---
+<article class="cs" aria-labelledby={`h-${r.slug}`}>
+  <figure class="cs-shot">
+    <Image src={r.shot} alt={`Startseite von ${r.domain}`} widths={[640, 960, 1400]} sizes="(max-width: 860px) 92vw, 55vw" loading={eager ? 'eager' : 'lazy'} />
+  </figure>
+  <div class="cs-body">
+    <p class="kicker">{r.kicker}</p>
+    <H id={`h-${r.slug}`} set:html={r.nameHtml} />
+    <ul class="chips" aria-label="Leistungen">{r.chips.map((c) => <li>{c}</li>)}</ul>
+    <dl class="cs-facts">
+      {r.before && <div><dt>Ausgangslage</dt><dd>{r.before}</dd></div>}
+      {r.work && <div><dt>Umsetzung</dt><dd>{r.work}</dd></div>}
+      <div><dt>Ergebnis</dt><dd>{r.result}</dd></div>
+    </dl>
+    <div class="cs-kpis">{r.kpis.map((k) => <div><b>{k.value}</b><span>{k.label}</span></div>)}</div>
+    {r.quote && <blockquote>„{r.quote.text}“<cite>{r.quote.author}</cite></blockquote>}
+    <a class="cs-link" href={r.url} target="_blank" rel="noopener">{r.domain}</a>
+  </div>
+</article>

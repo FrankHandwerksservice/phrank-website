@@ -1,0 +1,10 @@
+---
+interface Props { title?: string; outline?: string; }
+const { title = 'Dein Betrieb als', outline = 'nächster?' } = Astro.props;
+---
+<section aria-labelledby="h-cta">
+  <div class="cta-band">
+    <h2 id="h-cta">{title} <span class="outline">{outline}</span></h2>
+    <a class="btn btn-marker" href="/#kontakt">Kostenlosen Check anfragen</a>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+---
+import { Image } from 'astro:assets';
+import type { Reference } from '../data/references';
+interface Props { r: Reference; }
+const { r } = Astro.props;
+---
+<a class="case" href={`/referenzen/${r.slug}/`}>
+  <span class="shot"><Image src={r.shot} alt={`Startseite von ${r.domain}`} widths={[480, 720, 1120]} sizes="(max-width: 720px) 78vw, 560px" loading="lazy" /></span>
+  <span class="row"><h3 set:html={r.nameHtml} /><span class="res">{r.headline}</span></span>
+  <span class="meta">{r.cardMeta}</span>
+</a>

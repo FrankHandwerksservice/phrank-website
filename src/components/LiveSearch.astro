@@ -1,0 +1,85 @@
+---
+import Icon from './Icon.astro';
+---
+<figure class="live" aria-label="Beispiel einer Google-Kartensuche, in der ein Beispielbetrieb auf Platz 1 steht">
+  <span class="live-tag" aria-hidden="true">Live-Beispiel</span>
+  <div class="search" aria-hidden="true">
+    <Icon name="search" />
+    <span id="q">pizzeria in der nähe</span><span class="caret"></span>
+  </div>
+  <div class="map" aria-hidden="true">
+    <span class="pinmark" style="left:16%;top:30%"></span><span class="pinmark" style="left:68%;top:58%"></span><span class="pinmark" style="left:86%;top:20%"></span>
+    <span class="pinmark me" id="mepin" style="left:42%;top:26%"></span>
+  </div>
+  <ol class="results" id="results" aria-live="off"></ol>
+  <figcaption class="live-note"><span>Beispielbetriebe, frei erfunden</span><button class="live-ctrl" id="live-ctrl" type="button" aria-pressed="false">Animation anhalten</button></figcaption>
+</figure>
+
+<script>
+  // Live-Suche: tippt eine Suche, dann klettert der Beispielbetrieb auf Platz 1
+  type Scene = { q: string; me: string; meta: string; others: [string, string][]; pin: [number, number] };
+  const scenes: Scene[] = [
+    { q: 'pizzeria in der nähe', me: 'Trattoria Da Enzo', meta: '4,8 · 212 Bewertungen · 350 m', others: [['Pizza Napoli Express', '4,2 · 96 Bewertungen · 1,1 km'], ['Ristorante Bella Vista', '4,4 · 158 Bewertungen · 1,6 km']], pin: [42, 26] },
+    { q: 'elektriker neuss', me: 'Elektro Brandt', meta: '4,9 · 87 Bewertungen · 24 h Notdienst', others: [['Elektro Service West', '4,3 · 41 Bewertungen'], ['Schmitz Elektrotechnik', '4,1 · 63 Bewertungen']], pin: [58, 40] },
+    { q: 'apotheke notdienst', me: 'Linden-Apotheke', meta: '4,7 · 134 Bewertungen · 600 m', others: [['Apotheke am Markt', '4,4 · 77 Bewertungen'], ['Stern-Apotheke', '4,5 · 102 Bewertungen']], pin: [30, 48] },
+  ];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ol = document.getElementById('results')!;
+  const q = document.getElementById('q')!;
+  const pin = document.getElementById('mepin')!;
+  const ctrl = document.getElementById('live-ctrl')!;
+  const H = 68;
+  let i = 0, paused = reduce, timer: ReturnType<typeof setTimeout> | undefined;
+  const star = '<span class="stars" aria-hidden="true">★★★★★</span> ';
+
+  function render(s: Scene, mePos: number) {
+    const order: ([string, string] | null)[] = [...s.others];
+    order.splice(mePos, 0, null);
+    ol.innerHTML = '';
+    order.forEach((o, idx) => {
+      const li = document.createElement('li');
+      if (!o) { li.className = 'me'; li.innerHTML = `<span class="pos">${idx + 1}</span><div><b>${s.me}</b><small>${star}${s.meta}</small></div><span class="chip">Geöffnet</span>`; }
+      else li.innerHTML = `<span class="pos">${idx + 1}</span><div><b>${o[0]}</b><small>${star}${o[1]}</small></div><span></span>`;
+      li.style.transform = `translateY(${idx * H}px)`;
+      li.dataset.row = String(idx);
+      li.dataset.key = o ? o[0] : 'me';
+      ol.appendChild(li);
+    });
+    pin.style.left = s.pin[0] + '%';
+    pin.style.top = s.pin[1] + '%';
+  }
+  function climb() {
+    // Beispielbetrieb von Platz 3 auf Platz 1, die anderen rutschen nach unten
+    [...ol.children].forEach((el) => {
+      const li = el as HTMLLIElement;
+      const pos = li.querySelector('.pos')!;
+      if (li.dataset.key === 'me') { li.style.transform = 'translateY(0px)'; pos.textContent = '1'; }
+      else { const cur = Number(li.dataset.row); li.style.transform = `translateY(${(cur + 1) * H}px)`; pos.textContent = String(cur + 2); }
+    });
+  }
+  function type(text: string, done: () => void) {
+    let n = 0; q.textContent = '';
+    const step = () => {
+      if (paused) { q.textContent = text; done(); return; }
+      q.textContent = text.slice(0, ++n);
+      timer = setTimeout(n < text.length ? step : done, n < text.length ? 55 : 350);
+    };
+    step();
+  }
+  function run() {
+    if (paused) return;
+    const s = scenes[i]; render(s, 2);
+    type(s.q, () => { timer = setTimeout(() => { climb(); timer = setTimeout(() => { i = (i + 1) % scenes.length; run(); }, 3600); }, 250); });
+  }
+  // Ruhezustand: erste Szene, Beispielbetrieb auf Platz 1
+  render(scenes[0], 0);
+  ctrl.addEventListener('click', () => {
+    paused = !paused;
+    ctrl.setAttribute('aria-pressed', String(paused));
+    ctrl.textContent = paused ? 'Animation starten' : 'Animation anhalten';
+    clearTimeout(timer);
+    if (!paused) run(); else { render(scenes[i], 0); q.textContent = scenes[i].q; }
+  });
+  if (reduce) { ctrl.textContent = 'Animation starten'; ctrl.setAttribute('aria-pressed', 'true'); }
+  else timer = setTimeout(() => { i = 1; run(); }, 2500);
+</script>

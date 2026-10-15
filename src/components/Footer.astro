@@ -1,0 +1,13 @@
+---
+import { services } from '../data/services';
+---
+<footer class="wrap foot">
+  <div class="foot-row">
+    <span>© {new Date().getFullYear()} phrank, Philipp Frank</span>
+    <nav aria-label="Leistungen">
+      {services.map((s) => <a href={`/leistungen/${s.slug}/`}>{s.name}</a>)}
+    </nav>
+    <nav aria-label="Rechtliches"><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a></nav>
+  </div>
+  <p class="mega" aria-hidden="true"><b>ph</b>rank</p>
+</footer>

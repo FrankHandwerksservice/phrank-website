@@ -1,0 +1,86 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/hanken-grotesk';
+import '@fontsource/instrument-serif/400-italic.css';
+import '../styles/global.css';
+import archivoUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import hankenUrl from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  navKey?: string;
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+const { title, description, navKey, jsonLd = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${site.url}/#business`,
+  name: site.name,
+  url: site.url,
+  email: site.email,
+  telephone: site.phoneIntl,
+  description: site.description,
+  founder: { '@type': 'Person', name: site.owner },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.street,
+    postalCode: site.zip,
+    addressLocality: site.city,
+    addressRegion: site.region,
+    addressCountry: 'DE',
+  },
+  areaServed: site.areaServed.map((name) => ({ '@type': 'City', name })),
+};
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={hankenUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0E0F13" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="phrank" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site.url}/og.jpg`} />
+    <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <div id="site"><div class="page">
+      <Header navKey={navKey} />
+      <div id="inhalt" tabindex="-1"></div>
+      <slot />
+      <Footer />
+    </div></div>
+    <script>
+      // Mobiles Menü
+      const btn = document.getElementById('menu-btn');
+      const nav = document.getElementById('mobile-nav');
+      if (btn && nav) {
+        const set = (open: boolean) => { btn.setAttribute('aria-expanded', String(open)); nav.hidden = !open; };
+        btn.addEventListener('click', () => set(nav.hidden));
+        nav.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
+        addEventListener('keydown', (e) => { if (e.key === 'Escape' && !nav.hidden) { set(false); btn.focus(); } });
+      }
+    </script>
+  </body>
+</html>

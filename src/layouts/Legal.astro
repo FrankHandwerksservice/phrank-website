@@ -1,0 +1,14 @@
+---
+import Base from './Base.astro';
+interface Props { title: string; description: string; heading: string; }
+const { title, description, heading } = Astro.props;
+---
+<Base title={title} description={description}>
+  <main class="wrap legal">
+    <div class="ref-hero">
+      <nav class="crumb" aria-label="Brotkrumen"><a href="/">Startseite</a><span aria-hidden="true">/</span><span aria-current="page">{heading}</span></nav>
+      <h1 set:html={heading.replace('Datenschutz', 'Daten&shy;schutz')} />
+    </div>
+    <div class="legal-body"><slot /></div>
+  </main>
+</Base>

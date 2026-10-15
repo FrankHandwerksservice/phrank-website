@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import LiveSearch from '../components/LiveSearch.astro';
+import RefCard from '../components/RefCard.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import { services } from '../data/services';
+import { references } from '../data/references';
+import portrait from '../assets/philipp-frank.jpg';
+
+const problems = [
+  ['Bei Google stehen andere vor mir.', 'Ich optimiere deine Seite und dein Profil für die Suchbegriffe, die in deiner Gegend wirklich gesucht werden.'],
+  ['Meine Webseite ist alt, langsam oder fehlt ganz.', 'Du bekommst eine schnelle Webseite, die auf dem Handy funktioniert und in unter einer Sekunde lädt.'],
+  ['In Google Maps findet man mich kaum.', 'Ich richte dein Google-Profil vollständig ein und halte es mit Fotos, Beiträgen und Antworten auf Bewertungen aktuell.'],
+  ['Ich habe keine Zeit, mich darum zu kümmern.', 'Ich bleibe jeden Monat dran. Änderungen schickst du mir einfach per WhatsApp.'],
+  ['Ich weiß nicht, ob sich das lohnt.', 'Jeden Monat siehst du, wie oft du gefunden und angerufen wurdest. Ohne Fachchinesisch.'],
+];
+
+const plans = [
+  { id: 'p1', name: 'Lokal Start', kw: 'Der Einstieg', who: 'Für die Bar, das Café oder den Laden um die Ecke.', items: ['Pflege des Google-Profils', 'Antworten auf Bewertungen', 'Messung der Platzierungen', 'Monatsbericht'] },
+  { id: 'p2', name: 'Lokal Plus', kw: 'Mehr Sichtbarkeit', who: 'Für Restaurant, Apotheke und Einzelhandel.', items: ['Alles aus Lokal Start', 'Optimierung der Webseite', 'Ein lokaler Beitrag pro Monat', 'Fotos und Angebote im Profil'], hot: true },
+  { id: 'p3', name: 'Lokal Pro', kw: 'Rundum betreut', who: 'Für Handwerksbetriebe mit mehreren Leistungen und Orten.', items: ['Alles aus Lokal Plus', 'Lokaler Linkaufbau', 'Platzierung Straße für Straße gemessen', 'Eigene Seiten für Leistungen und Orte'] },
+];
+
+const faqs = [
+  { q: 'Was kostet das?', a: 'Das hängt davon ab, was du buchst. Nach dem kostenlosen Check weißt du genau, was ich empfehle und was es kostet. Das Angebot ist fest, ohne versteckte Kosten und ohne Verpflichtung.' },
+  { q: 'Wie schnell sehe ich Ergebnisse?', a: 'Ein gepflegtes Google-Profil wirkt oft schon nach wenigen Wochen. Stabile Platzierungen weit oben brauchen meist drei bis sechs Monate.' },
+  { q: 'Garantierst du Platz 1?', a: 'Nein, das kann seriös niemand. Ich garantiere dir klare Leistungen und zeige dir jeden Monat, wo du stehst.' },
+  { q: 'Ich habe schon eine Webseite. Muss die neu?', a: 'Nicht unbedingt. Im kostenlosen Check sehe ich, ob sie schnell genug ist und bei Google funktioniert. Oft reicht eine Überarbeitung.' },
+  { q: 'Kann ich Öffnungszeiten selbst ändern?', a: 'Ja. Kleine Änderungen machst du selbst über ein einfaches Formular. Oder du schickst mir eine Nachricht und ich erledige es.' },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const branchen = ['Restaurants', 'Bars', 'Handwerk', 'Apotheken', 'Cafés', 'Läden', 'Friseure', 'Praxen'];
+---
+<Base
+  title="phrank | Webseiten und Local SEO für Betriebe vor Ort"
+  description="Gefunden werden. Lokal. Schnelle Webseiten, gepflegtes Google-Profil und Local SEO für Betriebe in Neuss, Grevenbroich, Düsseldorf und Umgebung."
+  jsonLd={[faqLd]}
+>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="h-hero">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker"><span class="live-dot" aria-hidden="true"></span>Webseiten und Local SEO für Betriebe vor Ort</p>
+          <h1 id="h-hero">Gefunden <span class="l2">werden. <span class="hl">Lokal.</span></span></h1>
+          <p class="lead">Wenn jemand in deiner Gegend nach dem sucht, was du anbietest, sollst du ganz oben stehen. Ich baue dir eine schnelle Webseite, pflege dein Google-Profil und bleibe jeden Monat dran. Für jeden Betrieb, der vor Ort gefunden werden will.</p>
+          <div class="actions">
+            <a class="btn btn-marker" href="#kontakt">Kostenlosen Check anfragen</a>
+            <a class="btn btn-ghost" href="#pakete">Pakete ansehen</a>
+          </div>
+        </div>
+        <LiveSearch />
+      </div>
+    </section>
+
+    <div class="stats" role="list">
+      <div class="stat" role="listitem"><b>&lt;1 s</b><span>Ladezeit deiner neuen Webseite</span></div>
+      <div class="stat" role="listitem"><b>95+</b><span>Ziel bei Google PageSpeed</span></div>
+      <div class="stat" role="listitem"><b>24 h</b><span>bis zu meiner Antwort</span></div>
+      <div class="stat" role="listitem"><b>1</b><span>Ansprechpartner, und zwar ich</span></div>
+    </div>
+  </main>
+
+  <div class="ticker" id="ticker">
+    <div class="track" aria-hidden="true">
+      {[...branchen, ...branchen].map((b) => <span>{b}</span>)}
+    </div>
+    <p class="sr">Für Restaurants, Bars, Handwerk, Apotheken, Cafés, Läden, Friseure und Praxen.</p>
+    <button class="tick-toggle" id="tick-toggle" type="button" aria-pressed="false" aria-label="Laufband anhalten">
+      <Icon name="pause" size={16} />
+    </button>
+  </div>
+
+  <main class="wrap">
+    <section id="leistungen" aria-labelledby="h-leist">
+      <div class="sec-head">
+        <h2 id="h-leist">Was ich <span class="outline">für dich</span> mache.</h2>
+      </div>
+      <div class="svc" id="svc">
+        {services.map((s, i) => (
+          <div class="svc-item">
+            <button class="svc-btn" type="button" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`sp${i}`} id={`sb${i}`}><h3>{s.name}</h3><span class="svc-ico" aria-hidden="true"><Icon name="plus" size={22} /></span></button>
+            <div class="svc-panel" id={`sp${i}`} role="region" aria-labelledby={`sb${i}`} hidden={i !== 0}>
+              <p>{s.teaser}</p>
+              <ul>{s.bullets.map((b) => <li><Icon name="check" />{b}</li>)}</ul>
+              <a class="svc-more" href={`/leistungen/${s.slug}/`}>{s.more}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="probleme" aria-labelledby="h-emp">
+      <div class="sec-head">
+        <h2 id="h-emp">Kommt dir das <span class="outline">bekannt vor?</span></h2>
+      </div>
+      <div class="ps-head" aria-hidden="true"><span>Das Problem</span><span>Was ich mache</span></div>
+      <ul class="ps">
+        {problems.map(([p, s]) => (
+          <li class="ps-row">
+            <p class="ps-p"><span class="ps-ico"><Icon name="x" /></span><span><span class="sr">Problem: </span>{p}</span></p>
+            <p class="ps-s"><span class="ps-ico"><Icon name="check" /></span><span><span class="sr">Lösung: </span>{s}</span></p>
+          </li>
+        ))}
+      </ul>
+      <p class="ps-cta">Erkennst du dich wieder? <a href="#kontakt">Ich schaue mir deinen Betrieb kostenlos an.</a></p>
+    </section>
+
+    <section id="ergebnisse" aria-labelledby="h-refs">
+      <div class="head-row">
+        <div class="sec-head"><h2 id="h-refs">Ausgewählte <span class="outline">Arbeiten</span></h2></div>
+        <div class="slider-ctrl">
+          <button class="round" type="button" id="prev" aria-label="Vorherige Referenz"><Icon name="left" size={20} /></button>
+          <button class="round" type="button" id="next" aria-label="Nächste Referenz"><Icon name="right" size={20} /></button>
+        </div>
+      </div>
+      <div class="rail" id="rail" tabindex="0" aria-label="Referenzen, seitlich blätterbar">
+        {references.map((r) => <RefCard r={r} />)}
+        <a class="case more" href="/referenzen/"><span class="shot">Alle Referenzen ansehen</span><span class="meta">Mit Ergebnissen und Zahlen</span></a>
+      </div>
+    </section>
+
+    <section id="pakete" class="light" aria-labelledby="h-pakete">
+      <div class="sec-head">
+        <h2 id="h-pakete">Pakete, die <span class="outline">zu dir passen.</span></h2>
+        <p class="lead">Jeder Betrieb braucht etwas anderes, und du buchst nur, was du wirklich brauchst. Darum gibt es keine Preisliste. Nach dem kostenlosen Check bekommst du ein festes Angebot, schriftlich und ohne versteckte Kosten.</p>
+      </div>
+      <div class="plans">
+        {plans.map((p) => (
+          <article class:list={['plan', { hot: p.hot }]} aria-labelledby={p.id}>
+            <h3 id={p.id}>{p.name}</h3><span class="kw">{p.kw}</span>
+            <p class="muted">{p.who}</p>
+            <ul>{p.items.map((it) => <li><Icon name="check" />{it}</li>)}</ul>
+            <a class:list={['btn', p.hot ? 'btn-marker' : 'btn-ink-ghost']} href="#kontakt">Angebot anfragen</a>
+          </article>
+        ))}
+      </div>
+      <p class="once"><span>Auch einzeln:</span><span>Neue Webseite</span><span>Onepager</span><span>Einrichtung Google-Profil</span><span>Seiten für weitere Orte</span></p>
+    </section>
+
+    <section id="ablauf" aria-labelledby="h-ablauf">
+      <div class="sec-head"><h2 id="h-ablauf">So läuft’s.</h2></div>
+      <ol class="steps">
+        <li><span class="dot" aria-hidden="true">1</span><span class="when">Vor dem Start</span><h3>Kostenloser Check</h3><p>Ich prüfe, wo du bei Google stehst und was die Konkurrenz anders macht.</p></li>
+        <li><span class="dot" aria-hidden="true">2</span><span class="when">Woche 1 bis 3</span><h3>Aufbau</h3><p>Webseite, Google-Profil und Verzeichnisse werden sauber eingerichtet.</p></li>
+        <li><span class="dot" aria-hidden="true">3</span><span class="when">Monat 2 bis 6</span><h3>Sichtbar werden</h3><p>Inhalte, Bewertungen und Optimierung. Erste Ergebnisse meist nach drei Monaten.</p></li>
+        <li><span class="dot" aria-hidden="true">4</span><span class="when">Danach</span><h3>Wachsen</h3><p>Mehr Suchbegriffe, Orte und Leistungen, wenn du willst.</p></li>
+      </ol>
+    </section>
+
+    <section id="ueber" class="about" aria-labelledby="h-ueber">
+      <figure class="portrait">
+        <Image src={portrait} alt="Philipp Frank, Gründer von phrank, lächelnd im weißen Hemd" widths={[360, 540, 720]} sizes="(max-width: 760px) 320px, 40vw" loading="lazy" />
+        <figcaption class="hello">Hallo, ich bin Philipp.</figcaption>
+      </figure>
+      <div>
+        <h2 id="h-ueber" class="sr">Über mich</h2>
+        <p class="name-story" aria-label="Ph wie Philipp plus rank wie Ranking ergibt phrank"><span class="m">Ph</span>ilipp<br />+ <span class="m">rank</span><span class="eq outline">= phrank</span></p>
+        <p class="lead">Ich bin Philipp Frank. Ph wie Philipp, rank wie Ranking, gesprochen wie mein Nachname. Ich arbeite allein und direkt mit dir, ohne Kundenberater dazwischen. Wenn du anrufst, gehe ich ran.</p>
+      </div>
+    </section>
+
+    <Faq items={faqs} />
+    <Contact />
+  </main>
+</Base>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Laufband anhalten
+  const tk = document.getElementById('ticker')!;
+  const tb = document.getElementById('tick-toggle')!;
+  const ico = document.getElementById('tick-ico')!;
+  const pause = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+  const play = '<path d="M8 5v14l11-7z"/>';
+  tb.addEventListener('click', () => {
+    const p = tk.classList.toggle('paused');
+    tb.setAttribute('aria-pressed', String(p));
+    tb.setAttribute('aria-label', p ? 'Laufband starten' : 'Laufband anhalten');
+    ico.innerHTML = p ? play : pause;
+  });
+  if (reduce) { tk.classList.add('paused'); tb.hidden = true; }
+
+  // Leistungen aufklappen
+  const svcBtns = [...document.querySelectorAll<HTMLButtonElement>('.svc-btn')];
+  svcBtns.forEach((b) => b.addEventListener('click', () => {
+    const open = b.getAttribute('aria-expanded') === 'true';
+    svcBtns.forEach((o) => { o.setAttribute('aria-expanded', 'false'); document.getElementById(o.getAttribute('aria-controls')!)!.hidden = true; });
+    if (!open) { b.setAttribute('aria-expanded', 'true'); document.getElementById(b.getAttribute('aria-controls')!)!.hidden = false; }
+  }));
+
+  // Referenzen-Slider
+  const rail = document.getElementById('rail')!;
+  const step = () => rail.querySelector('.case')!.getBoundingClientRect().width + 24;
+  document.getElementById('prev')!.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: reduce ? 'auto' : 'smooth' }));
+  document.getElementById('next')!.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: reduce ? 'auto' : 'smooth' }));
+</script>

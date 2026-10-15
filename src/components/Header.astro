@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import { nav } from '../data/site';
+const { navKey } = Astro.props;
+---
+<header class="topbar">
+  <div class="bar">
+    <a class="logo" href="/" aria-label="phrank, zur Startseite"><b>ph</b>rank</a>
+    <nav class="navlinks" aria-label="Hauptmenü">
+      {nav.map((n) => <a href={n.href} aria-current={n.key && n.key === navKey ? 'page' : undefined}>{n.label}</a>)}
+    </nav>
+    <a class="btn btn-marker cta" href="/#kontakt">Kostenloser Check</a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">
+      <Icon name="menu" />Menü
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Hauptmenü mobil" hidden>
+    {nav.map((n) => <a href={n.href} aria-current={n.key && n.key === navKey ? 'page' : undefined}>{n.label}</a>)}
+    <a class="btn btn-marker" href="/#kontakt">Kostenlosen Check anfragen</a>
+  </nav>
+</header>

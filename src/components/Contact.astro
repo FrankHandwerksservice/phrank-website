@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<section id="kontakt" class="contact" aria-labelledby="h-kontakt">
+  <div>
+    <h2 id="h-kontakt">Lass uns <span class="outline">reden.</span></h2>
+    <p class="lead" style="margin-top:var(--s3)">Schick mir deinen Betrieb und deinen Ort. Innerhalb von 24 Stunden bekommst du einen kostenlosen Check mit den drei wichtigsten Verbesserungen.</p>
+    <div class="direct">
+      <span><Icon name="mail" size={22} /><a href={`mailto:${site.email}`}>{site.email}</a></span>
+      <span><Icon name="phone" size={22} /><a href={`tel:${site.phoneIntl}`}>{site.phone}</a></span>
+      <span><Icon name="whatsapp" size={22} /><a href={site.whatsapp}>WhatsApp schreiben</a></span>
+    </div>
+  </div>
+  <!-- Netlify Forms: die Anfrage landet im Netlify-Dashboard und per E-Mail bei Philipp -->
+  <form id="check" name="check" method="POST" action="/danke/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="check" />
+    <p hidden><label>Nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+    <div class="row2">
+      <div class="field"><label for="f-name">Name <span class="req" aria-hidden="true">*</span></label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name" /><span class="err" id="e-name" hidden>Bitte gib deinen Namen ein.</span></div>
+      <div class="field"><label for="f-ort">Ort <span class="req" aria-hidden="true">*</span></label><input id="f-ort" name="ort" autocomplete="address-level2" required aria-describedby="e-ort" placeholder="Neuss" /><span class="err" id="e-ort" hidden>Bitte gib den Ort deines Betriebs ein.</span></div>
+    </div>
+    <div class="field"><label for="f-betrieb">Betrieb oder Link zum Google-Profil</label><input id="f-betrieb" name="betrieb" autocomplete="organization" placeholder="Trattoria Da Enzo" /></div>
+    <div class="field"><label for="f-mail">E-Mail <span class="req" aria-hidden="true">*</span></label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-mail" /><span class="err" id="e-mail" hidden>Bitte gib eine E-Mail-Adresse wie name@beispiel.de ein.</span></div>
+    <div class="field"><label for="f-branche">Branche</label>
+      <select id="f-branche" name="branche"><option>Restaurant, Bar oder Café</option><option>Handwerk</option><option>Laden oder Einzelhandel</option><option>Apotheke</option><option>Gesundheit oder Therapie</option><option>Etwas anderes</option></select>
+    </div>
+    <p class="form-note">Felder mit * brauche ich für den Check. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    <button class="btn btn-marker" type="submit" id="f-submit">Kostenlosen Check anfragen</button>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  const form = document.getElementById('check') as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById('status')!;
+    const btn = document.getElementById('f-submit') as HTMLButtonElement;
+    const rules: Record<string, (v: string) => boolean> = {
+      'f-name': (v) => v.trim().length > 1,
+      'f-ort': (v) => v.trim().length > 1,
+      'f-mail': (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    };
+    const errs: Record<string, string> = { 'f-name': 'e-name', 'f-ort': 'e-ort', 'f-mail': 'e-mail' };
+    const check = (id: string) => {
+      const el = document.getElementById(id) as HTMLInputElement;
+      const ok = rules[id](el.value);
+      el.setAttribute('aria-invalid', String(!ok));
+      document.getElementById(errs[id])!.hidden = ok;
+      return ok;
+    };
+    Object.keys(rules).forEach((id) => document.getElementById(id)!.addEventListener('blur', (e) => { if ((e.target as HTMLInputElement).value) check(id); }));
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const bad = Object.keys(rules).filter((id) => !check(id));
+      if (bad.length) { document.getElementById(bad[0])!.focus(); status.textContent = 'Bitte prüfe die markierten Felder.'; return; }
+      btn.setAttribute('aria-busy', 'true'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; status.textContent = '';
+      try {
+        const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
+        const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = 'Danke! Deine Anfrage ist angekommen. Du hörst innerhalb von 24 Stunden von mir.';
+      } catch {
+        status.textContent = 'Das hat leider nicht geklappt. Schreib mir gern direkt an hello@phrank.io.';
+      } finally {
+        btn.removeAttribute('aria-busy'); btn.disabled = false; btn.textContent = 'Kostenlosen Check anfragen';
+      }
+    });
+  }
+</script>
