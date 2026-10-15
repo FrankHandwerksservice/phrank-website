@@ -7,7 +7,7 @@ export const site = {
   phoneIntl: '+4915785119191',
   whatsapp: 'https://wa.me/4915785119191',
   // Formward (EU-Formulardienst): Endpunkt aus dem Formward-Dashboard
-  formAction: 'https://forms.formward.eu/f/FORMWARD_FORM_ID',
+  formAction: 'https://forms.formward.eu/f/00b02bfb-72ef-4000-a529-196c9089889c',
   street: 'Im Erftgrund 4',
   zip: '41516',
   city: 'Grevenbroich',
