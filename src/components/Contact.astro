@@ -12,9 +12,11 @@ import { site } from '../data/site';
       <span><Icon name="whatsapp" size={22} /><a href={site.whatsapp}>WhatsApp schreiben</a></span>
     </div>
   </div>
-  <!-- kontakt.php schickt die Anfrage per E-Mail an Philipp -->
-  <form id="check" name="check" method="POST" action="/kontakt.php" novalidate>
-    <p hidden><label>Nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+  <!-- Formward (Server in Schweden) schickt die Anfrage per E-Mail an Philipp -->
+  <form id="check" name="check" method="POST" action={site.formAction} novalidate>
+    <input type="hidden" name="_subject" value="Anfrage Check über phrank.io" />
+    <input type="hidden" name="_redirect" value={`${site.url}/danke/`} />
+    <p hidden><label>Nicht ausfüllen: <input name="_gotcha" tabindex="-1" autocomplete="off" /></label></p>
     <div class="row2">
       <div class="field"><label for="f-name">Name <span class="req" aria-hidden="true">*</span></label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name" /><span class="err" id="e-name" hidden>Bitte gib deinen Namen ein.</span></div>
       <div class="field"><label for="f-ort">Ort <span class="req" aria-hidden="true">*</span></label><input id="f-ort" name="ort" autocomplete="address-level2" required aria-describedby="e-ort" placeholder="Neuss" /><span class="err" id="e-ort" hidden>Bitte gib den Ort deines Betriebs ein.</span></div>

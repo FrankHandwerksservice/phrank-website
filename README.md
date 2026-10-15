@@ -27,8 +27,8 @@ Bei Referenzen können `before` (Ausgangslage), `work` (Umsetzung) und `quote` (
 
 ## Livegang
 
-1. In [IONOS Deploy Now](https://ionos.space) ein neues Projekt aus diesem GitHub-Repo anlegen. Projektart **PHP** wählen (damit `kontakt.php` läuft), Build-Befehl `npm run build`, Ausgabeordner `dist`. Deploy Now legt seine Workflow-Dateien selbst im Repo an.
+1. In [IONOS Deploy Now](https://ionos.space) ein Projekt aus diesem Repo anlegen: Paket **Starter**, Build-Befehl `npm run build`, Ausgabeordner `dist`. Deploy Now legt seine Workflow-Dateien selbst im Repo an.
 2. **Domain:** In Deploy Now `phrank.io` verbinden. Da die Domain im selben IONOS-Konto liegt, setzt IONOS die DNS-Einträge selbst. Die MX-Einträge für hello@phrank.io bleiben unverändert.
-3. **Formular testen:** Einmal eine Anfrage abschicken und prüfen, dass sie bei hello@phrank.io ankommt. Das Postfach muss bei IONOS existieren, weil es auch als Absender dient.
-4. **Auftragsverarbeitung:** Den AV-Vertrag im IONOS-Kundenkonto abschließen (Verträge & Datenschutz), auf den die Datenschutzerklärung verweist.
+3. **Formular:** Bei [Formward](https://formward.eu) ein Formular anlegen, Benachrichtigung an hello@phrank.io, `https://phrank.io` als erlaubte Herkunft eintragen, DPA im Dashboard akzeptieren. Die Formular-ID in `src/data/site.ts` bei `formAction` eintragen.
+4. **Auftragsverarbeitung:** AV-Vertrag im IONOS-Kundenkonto abschließen.
 5. Danach die Seite in der [Google Search Console](https://search.google.com/search-console) anmelden und `https://phrank.io/sitemap-index.xml` einreichen.
