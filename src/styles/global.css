@@ -237,7 +237,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--marker);outline:none}
 input::placeholder,textarea::placeholder{color:#6E717C}
 input[aria-invalid="true"]{border-color:var(--pin)}
 .err{font-size:.92rem;font-weight:600;color:#FF8F92}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);align-items:start}
 .form-note{font-size:.9rem;color:var(--muted)}
 .status{font-weight:600;color:var(--marker);min-height:1.6em}
 .btn[aria-busy="true"]{opacity:.7;cursor:progress}
