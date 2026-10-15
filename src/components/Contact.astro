@@ -12,9 +12,8 @@ import { site } from '../data/site';
       <span><Icon name="whatsapp" size={22} /><a href={site.whatsapp}>WhatsApp schreiben</a></span>
     </div>
   </div>
-  <!-- Netlify Forms: die Anfrage landet im Netlify-Dashboard und per E-Mail bei Philipp -->
-  <form id="check" name="check" method="POST" action="/danke/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-    <input type="hidden" name="form-name" value="check" />
+  <!-- kontakt.php schickt die Anfrage per E-Mail an Philipp -->
+  <form id="check" name="check" method="POST" action="/kontakt.php" novalidate>
     <p hidden><label>Nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
     <div class="row2">
       <div class="field"><label for="f-name">Name <span class="req" aria-hidden="true">*</span></label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name" /><span class="err" id="e-name" hidden>Bitte gib deinen Namen ein.</span></div>
@@ -57,7 +56,7 @@ import { site } from '../data/site';
       btn.setAttribute('aria-busy', 'true'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; status.textContent = '';
       try {
         const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
-        const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+        const res = await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' }, body });
         if (!res.ok) throw new Error(String(res.status));
         form.reset();
         status.textContent = 'Danke! Deine Anfrage ist angekommen. Du hörst innerhalb von 24 Stunden von mir.';

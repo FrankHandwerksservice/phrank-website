@@ -2,7 +2,7 @@
 
 Webseite von phrank (Philipp Frank): Webseiten und Local SEO für Betriebe vor Ort.
 
-Gebaut mit [Astro](https://astro.build), gehostet bei Netlify.
+Gebaut mit [Astro](https://astro.build), gehostet bei IONOS (Deploy Now).
 
 ## Lokal starten
 
@@ -27,8 +27,8 @@ Bei Referenzen können `before` (Ausgangslage), `work` (Umsetzung) und `quote` (
 
 ## Livegang
 
-1. In Netlify: **Add new site → Import from GitHub →** dieses Repo wählen. Die Einstellungen kommen aus `netlify.toml`.
-2. **Domain:** In Netlify unter *Domain management* `phrank.io` hinzufügen und beim Domain-Anbieter die DNS-Einträge setzen, die Netlify anzeigt. HTTPS richtet Netlify automatisch ein.
-3. **Formular:** Unter *Forms* die Formularerkennung aktivieren und unter *Form notifications* eine E-Mail-Benachrichtigung an hello@phrank.io anlegen.
-4. **Auftragsverarbeitung:** Den Vertrag zur Auftragsverarbeitung (DPA) von Netlify abschließen, auf den die Datenschutzerklärung verweist.
+1. In [IONOS Deploy Now](https://ionos.space) ein neues Projekt aus diesem GitHub-Repo anlegen. Projektart **PHP** wählen (damit `kontakt.php` läuft), Build-Befehl `npm run build`, Ausgabeordner `dist`. Deploy Now legt seine Workflow-Dateien selbst im Repo an.
+2. **Domain:** In Deploy Now `phrank.io` verbinden. Da die Domain im selben IONOS-Konto liegt, setzt IONOS die DNS-Einträge selbst. Die MX-Einträge für hello@phrank.io bleiben unverändert.
+3. **Formular testen:** Einmal eine Anfrage abschicken und prüfen, dass sie bei hello@phrank.io ankommt. Das Postfach muss bei IONOS existieren, weil es auch als Absender dient.
+4. **Auftragsverarbeitung:** Den AV-Vertrag im IONOS-Kundenkonto abschließen (Verträge & Datenschutz), auf den die Datenschutzerklärung verweist.
 5. Danach die Seite in der [Google Search Console](https://search.google.com/search-console) anmelden und `https://phrank.io/sitemap-index.xml` einreichen.
